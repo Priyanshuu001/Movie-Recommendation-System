@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineSuggest — Premium AI Movie Recommendations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="dark-theme">
+    
+    <!-- Background Cinematic Orbs -->
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <header class="navbar glass-header">
+        <div class="navbar-inner container">
+            <a href="/" class="logo">
+                <span class="logo-accent">Cine</span>Suggest
+            </a>
+            <div class="navbar-actions">
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path></svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="content-wrapper">
+
+        <section class="hero">
+            <div class="container hero-container">
+                <div class="hero-badge">✨ AI-Powered Discovery</div>
+                <h1 class="hero-title">Find the <span class="text-gradient">movies</span><br/>you were meant to watch.</h1>
+                <p class="hero-subtitle">Experience a new era of movie recommendations. Filter by industry, cast, rating, and genre using our advanced TF-IDF ML engine.</p>
+            </div>
+        </section>
+
+        <section class="filter-section">
+            <div class="container">
+                <div class="filter-panel glass-panel">
+                    <div class="filter-grid">
+                        <div class="filter-group">
+                            <label for="filter-industry" class="filter-label">Industry</label>
+                            <select id="filter-industry" class="filter-select glass-input">
+                                <option value="">All Regions</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="filter-genre" class="filter-label">Genre</label>
+                            <select id="filter-genre" class="filter-select glass-input">
+                                <option value="">All Genres</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="filter-rating" class="filter-label">Rating</label>
+                            <select id="filter-rating" class="filter-select glass-input">
+                                <option value="">Any Rating</option>
+                                <option value="Low">Low (0 - 4)</option>
+                                <option value="Average">Average (4 - 6)</option>
+                                <option value="Good">Good (6 - 7)</option>
+                                <option value="Very Good">Very Good (7 - 8)</option>
+                                <option value="Excellent">Excellent (8 - 10)</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="filter-actor" class="filter-label">Cast Member</label>
+                            <div class="autocomplete-wrapper">
+                                <input type="text" id="filter-actor" class="filter-input glass-input" placeholder="Type actor name..." autocomplete="off">
+                                <div id="actor-suggestions" class="suggestions-list glass-dropdown hidden"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-actions">
+                        <button id="discover-btn" class="btn btn-glow">Discover Movies</button>
+                        <button id="reset-btn" class="btn btn-ghost">Reset Filters</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="search-section">
+            <div class="container">
+                <div class="search-divider">
+                    <span>Or search for a specific title</span>
+                </div>
+                <div id="search-container" class="search-container">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="search-input" class="search-input glass-input" placeholder="Search the database..." autocomplete="off">
+                    <button id="clear-search" class="clear-btn hidden" aria-label="Clear search">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                    <div id="suggestions-dropdown" class="suggestions-list glass-dropdown hidden"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="results-section">
+            <div class="container">
+
+                <div id="welcome-state" class="welcome-state">
+                    <h3 class="welcome-title">Popular Picks</h3>
+                    <div id="quick-picks" class="quick-picks">
+                        <button class="tag-btn">Inception</button>
+                        <button class="tag-btn">The Dark Knight</button>
+                        <button class="tag-btn">Interstellar</button>
+                        <button class="tag-btn">Avatar</button>
+                        <button class="tag-btn">The Matrix</button>
+                        <button class="tag-btn">Gladiator</button>
+                    </div>
+                </div>
+
+                <div id="loading-state" class="loading-state hidden">
+                    <div class="loader-ring"></div>
+                    <p class="loader-text">Analyzing Metadata...</p>
+                </div>
+
+                <div id="error-state" class="error-state hidden">
+                    <div class="error-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    </div>
+                    <p id="error-message" class="error-message">Something went wrong.</p>
+                    <button id="retry-btn" class="btn btn-ghost">Try Again</button>
+                </div>
+
+                <div id="results-state" class="results-state hidden">
+                    <div class="results-header-wrap">
+                        <h2 id="results-header" class="results-header"></h2>
+                        <div class="results-line"></div>
+                    </div>
+                    <div id="movies-grid" class="movies-grid"></div>
+                    <div id="pagination" class="pagination"></div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="spotlight-section" class="spotlight-section hidden">
+            <div class="container">
+                <div class="spotlight-card glass-panel">
+                    <div id="spotlight-backdrop" class="spotlight-backdrop"></div>
+                    <div class="spotlight-content">
+                        <div class="spotlight-media">
+                            <div class="spotlight-poster-wrap">
+                                <img id="spotlight-poster" class="spotlight-poster" src="" alt="Movie poster">
+                                <div id="spotlight-poster-placeholder" class="spotlight-poster-placeholder">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="spotlight-info">
+                            <h2 id="spotlight-title" class="spotlight-title"></h2>
+                            <div class="spotlight-meta">
+                                <span class="meta-item rating" id="spotlight-rating"></span>
+                                <span class="meta-dot">&bull;</span>
+                                <span class="meta-item" id="spotlight-year"></span>
+                                <span class="meta-dot">&bull;</span>
+                                <span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20v-6M6 20V10M18 20V4"></path></svg> <span id="spotlight-popularity"></span></span>
+                            </div>
+                            <div id="spotlight-genres" class="spotlight-genres"></div>
+                            
+                            <div class="spotlight-credits-grid">
+                                <div class="credit-block">
+                                    <span class="credit-label">Director</span>
+                                    <span class="credit-value" id="spotlight-director"></span>
+                                </div>
+                                <div class="credit-block">
+                                    <span class="credit-label">Top Cast</span>
+                                    <span class="credit-value" id="spotlight-cast"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p class="footer-tech">Engineered with Flask, TF-IDF, and Cosine Similarity</p>
+            <p class="footer-copy">CineSuggest &copy; 2026</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</body>
+</html>
