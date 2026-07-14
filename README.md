@@ -1,6 +1,4 @@
 # TMDB Movie Recommendation System
-> Machine Learning Internship — Week 4 Project Submission
-
 This repository contains a full-stack Machine Learning application that recommends similar movies using content-based filtering. The system is trained on the TMDB 5000 Movies dataset and built with an optimized data pipeline designed for lightweight, memory-efficient production deployments.
 
 Live Web Application: https://movie-recommender-XXXX.onrender.com/
